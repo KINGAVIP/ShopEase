@@ -2,6 +2,7 @@ package com.shopease.backend.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,5 +40,20 @@ public void testGetAllProducts() throws Exception {
     mockMvc.perform(get("/api/test/products"))
             .andExpect(status().isOk());
 }
+    @Test
+    public void testGetProduct() throws Exception{
+        System.out.println("Lets check output byt avi");
+        mockMvc.perform(get("/api/test/product/2")).andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void testDeleteProduct() throws Exception{
+        mockMvc.perform(delete("/api/test/delete/4")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testupdateProduct() throws Exception{
+        mockMvc.perform(put("/api/test/update/2")).andExpect(status().isOk());  
+    }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.shopease.backend.model.Product;
 import com.shopease.backend.repository.ProductRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ProductService {
     @Autowired
@@ -24,4 +26,17 @@ public class ProductService {
     {
         return productRepository.findById(id);
     }
+    public void deleteProduct(int id)
+    {
+        productRepository.deleteById(id);
+    }
+
+    public Product updateProduct(int id , Product pr)
+    {
+        Product p = productRepository.findById(id).orElseThrow(()->new EntityNotFoundException());
+        p.setName(pr.getName());
+        p.setPrice(pr.getPrice());
+        return productRepository.saveAndFlush(p);
+    }
+
 }
