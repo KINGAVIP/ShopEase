@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shopease.backend.model.User;
+import com.shopease.backend.repository.UserRepository;
 import com.shopease.backend.service.UserService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,15 +19,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-
-
 @RestController
 
 @RequestMapping("/user")
 public class UserController {
 
+    private final UserRepository userRepository;
+
     @Autowired
     private UserService userService;
+
+    UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     @GetMapping("/all")
     public List<User> getUsers() {
         return userService.getUsers();
@@ -50,4 +55,13 @@ public class UserController {
     {
         userService.deleteUser(id);
     }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        if(userService.authenticate(username, password))
+            return "Login success";
+        else
+            return "Failed";
+    }
+    
 }

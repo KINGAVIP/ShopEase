@@ -28,8 +28,9 @@ public class UserTestController {
     public void createUser() throws Exception
     {
         User u=new User();
-        u.setUsername("avi");
-        u.setPassword("1234");
+        u.setUsername("rohit");
+        u.setPassword("kin12");
+        u.setRole("Admin");
         mockMvc.perform(post("/user/create").contentType("application/json")
         .content(objectMapper.writeValueAsString(u))).andExpect(status().isCreated());
     }
@@ -48,8 +49,12 @@ public class UserTestController {
     public void deleteUser() throws Exception{
         mockMvc.perform(delete("/user/delete/1")).andExpect(status().isOk());
     }
+
+    @Test
     public void updateUser() throws Exception{
-        mockMvc.perform(put("/user/update/1")).andExpect(status().isOk());
+        User u=new User();
+        u.setRole("User");
+        mockMvc.perform(put("/user/update/2").contentType("application/json").content(objectMapper.writeValueAsString(u))).andExpect(status().isOk());
     }
 
     

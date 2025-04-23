@@ -39,8 +39,17 @@ public class UserService {
         User u = userRepository.findById(id).orElseThrow(()->new EntityNotFoundException());
         u.setUsername(a.getUsername());
         u.setPassword(a.getPassword());
+        u.setRole(a.getRole());
         return userRepository.saveAndFlush(u);
     }
+
+    public boolean authenticate(String username, String password){
+        User u =userRepository.findByUsername(username);
+        if(u!=null && u.getPassword().equals(password))
+            return true;
+        return false;
+    }
+
 
     
 
